@@ -53,40 +53,40 @@ git clone <URL_DEL_REPOSITORIO>
 cd Decarrerita
 
 ### Paso 2: Configurar y Levantar el Backend
-#####Abre una terminal y entra a la carpeta del servidor:
+##### Abre una terminal y entra a la carpeta del servidor:
 
 cd backend
 
-#####Instala las dependencias:
+##### Instala las dependencias:
 
 npm install
 
-#####Crea un archivo llamado .env en la raíz de la carpeta backend y llenalo con lo siguietne para conectarte a tu motor local:
+##### Crea un archivo llamado .env en la raíz de la carpeta backend y llenalo con lo siguietne para conectarte a tu motor local:
 
 DATABASE_URL="postgresql://postgres:Decarr-123@localhost:5432/decarrerita_db?schema=public"
 JWT_SECRET="Decarrerita_Es_Seguro_Te_Lo_Juro_Por_Dieguito_Maradona"
 
-#####Sincroniza el modelo con tu base de datos mediante Prisma:
+##### Sincroniza el modelo con tu base de datos mediante Prisma:
 
 npx prisma migrate dev
 
-#####Enciende el servidor backend:
+##### Enciende el servidor backend:
 
 npm run dev
 
-######(Mantén esta terminal abierta. Si la cierras, la base de datos dejará de responder).
+###### (Mantén esta terminal abierta. Si la cierras, la base de datos dejará de responder).
 
 ### Paso 3: Configurar y Levantar el Frontend
-#####Abre una NUEVA terminal (sin cerrar la del backend) y entra a la interfaz:
+##### Abre una NUEVA terminal (sin cerrar la del backend) y entra a la interfaz:
 
 cd frontend
 
-#####Instala las dependencias de React:
+##### Instala las dependencias de React:
 
 npm install
 
-#####Enciende el entorno visual:
+##### Enciende el entorno visual:
 
 npm run dev
 
-#####Haz Ctrl + Clic en el enlace que aparece en la terminal (usualmente `http://localhost:5173`) para abrir la aplicación.
+##### Haz Ctrl + Clic en el enlace que aparece en la terminal (usualmente `http://localhost:5173`) para abrir la aplicación.
