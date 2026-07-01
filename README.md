@@ -49,8 +49,7 @@ Sigan estos pasos estrictamente en orden para levantar el proyecto localmente.
 ### Paso 1: Clonar el Repositorio
 Abre tu terminal y ejecuta:
 
-git clone <URL_DEL_REPOSITORIO>
-
+git clone <URL_DEL_REPOSITORIO>  
 cd Decarrerita
 
 ### Paso 2: Configurar y Levantar el Backend
