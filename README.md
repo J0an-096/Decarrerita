@@ -63,8 +63,8 @@ npm install
 
 ##### Crea un archivo llamado .env en la raíz de la carpeta backend y llenalo con lo siguietne para conectarte a tu motor local:
 
-DATABASE_URL="postgresql://postgres:Decarr-123@localhost:5432/decarrerita_db?schema=public"
-JWT_SECRET="Decarrerita_Es_Seguro_Te_Lo_Juro_Por_Dieguito_Maradona"
+DATABASE_URL="postgresql://<TU_USUARIO>:<TU_CONTRASEÑA>@localhost:5432/decarrerita_db?schema=public"
+JWT_SECRET="ingresa_tu_clave_secreta_aqui"
 
 ##### Sincroniza el modelo con tu base de datos mediante Prisma:
 
