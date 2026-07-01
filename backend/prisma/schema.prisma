@@ -1,0 +1,151 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model banco {
+  id_banco Int       @id @default(autoincrement())
+  nombre   String    @db.VarChar(100)
+  chofer   chofer[]
+  recarga  recarga[]
+}
+
+model chofer {
+  id_usuario             Int                      @id
+  id_banco               Int?
+  numero_cuenta          String?                  @db.VarChar(50)
+  estado_disponibilidad  Boolean?                 @default(false)
+  banco                  banco?                   @relation(fields: [id_banco], references: [id_banco], onDelete: NoAction, onUpdate: NoAction)
+  usuario                usuario                  @relation(fields: [id_usuario], references: [id_usuario], onDelete: Cascade, onUpdate: NoAction)
+  contacto_emergencia    contacto_emergencia[]
+  evaluacion_psicologica evaluacion_psicologica[]
+  pago_chofer            pago_chofer[]
+  traslado               traslado[]
+  vehiculo               vehiculo[]
+}
+
+model cliente {
+  id_usuario       Int        @id
+  saldo_disponible Decimal?   @default(0.00) @db.Decimal(10, 2)
+  usuario          usuario    @relation(fields: [id_usuario], references: [id_usuario], onDelete: Cascade, onUpdate: NoAction)
+  recarga          recarga[]
+  traslado         traslado[]
+}
+
+model contacto_emergencia {
+  id_contacto Int     @id @default(autoincrement())
+  id_chofer   Int
+  nombre      String  @db.VarChar(100)
+  telefono    String  @db.VarChar(20)
+  parentesco  String? @db.VarChar(50)
+  chofer      chofer  @relation(fields: [id_chofer], references: [id_usuario], onDelete: Cascade, onUpdate: NoAction)
+}
+
+model empleado_administrativo {
+  id_usuario_admin       Int                      @id
+  usuario                usuario                  @relation(fields: [id_usuario_admin], references: [id_usuario], onDelete: Cascade, onUpdate: NoAction)
+  evaluacion_psicologica evaluacion_psicologica[]
+  pago_chofer            pago_chofer[]
+  revision_vehicular     revision_vehicular[]
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model evaluacion_psicologica {
+  id_evaluacion           Int                     @id @default(autoincrement())
+  id_chofer               Int
+  id_usuario_admin        Int
+  nota                    Int
+  fecha_obtencion         DateTime                @db.Date
+  estatus                 String                  @db.VarChar(20)
+  fecha_registro          DateTime?               @default(now()) @db.Timestamp(6)
+  chofer                  chofer                  @relation(fields: [id_chofer], references: [id_usuario], onDelete: NoAction, onUpdate: NoAction)
+  empleado_administrativo empleado_administrativo @relation(fields: [id_usuario_admin], references: [id_usuario_admin], onDelete: NoAction, onUpdate: NoAction)
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model pago_chofer {
+  id_pago                 Int                     @id @default(autoincrement())
+  id_chofer               Int
+  id_usuario_admin        Int
+  fecha_pago              DateTime?               @default(now()) @db.Timestamp(6)
+  numero_referencia       String                  @unique @db.VarChar(100)
+  monto_pagado            Decimal                 @db.Decimal(10, 2)
+  chofer                  chofer                  @relation(fields: [id_chofer], references: [id_usuario], onDelete: NoAction, onUpdate: NoAction)
+  empleado_administrativo empleado_administrativo @relation(fields: [id_usuario_admin], references: [id_usuario_admin], onDelete: NoAction, onUpdate: NoAction)
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model recarga {
+  id_recarga        Int       @id @default(autoincrement())
+  id_cliente        Int
+  id_banco          Int
+  fecha_recarga     DateTime? @default(now()) @db.Timestamp(6)
+  numero_referencia String    @unique @db.VarChar(100)
+  monto             Decimal   @db.Decimal(10, 2)
+  banco             banco     @relation(fields: [id_banco], references: [id_banco], onDelete: NoAction, onUpdate: NoAction)
+  cliente           cliente   @relation(fields: [id_cliente], references: [id_usuario], onDelete: NoAction, onUpdate: NoAction)
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model revision_vehicular {
+  id_revision             Int                     @id @default(autoincrement())
+  placa_vehiculo          String                  @db.VarChar(20)
+  id_usuario_admin        Int
+  calificacion            Int
+  fecha_obtencion         DateTime                @db.Date
+  estatus                 String                  @db.VarChar(20)
+  fecha_registro          DateTime?               @default(now()) @db.Timestamp(6)
+  empleado_administrativo empleado_administrativo @relation(fields: [id_usuario_admin], references: [id_usuario_admin], onDelete: NoAction, onUpdate: NoAction)
+  vehiculo                vehiculo                @relation(fields: [placa_vehiculo], references: [placa], onDelete: NoAction, onUpdate: NoAction)
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model traslado {
+  id_traslado        Int       @id @default(autoincrement())
+  id_cliente         Int
+  id_chofer          Int
+  placa_vehiculo     String    @db.VarChar(20)
+  origen_puntoa      String
+  destino_puntob     String
+  distancia_km       Decimal   @db.Decimal(8, 2)
+  fecha_hora         DateTime? @default(now()) @db.Timestamp(6)
+  estatus            String    @db.VarChar(30)
+  costo_total        Decimal   @db.Decimal(10, 2)
+  ganancia_empresa   Decimal   @db.Decimal(10, 2)
+  ganancia_chofer    Decimal   @db.Decimal(10, 2)
+  estado_pago_chofer String?   @default("Pendiente") @db.VarChar(20)
+  chofer             chofer    @relation(fields: [id_chofer], references: [id_usuario], onDelete: NoAction, onUpdate: NoAction)
+  cliente            cliente   @relation(fields: [id_cliente], references: [id_usuario], onDelete: NoAction, onUpdate: NoAction)
+  vehiculo           vehiculo  @relation(fields: [placa_vehiculo], references: [placa], onDelete: NoAction, onUpdate: NoAction)
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model usuario {
+  id_usuario              Int                      @id @default(autoincrement())
+  cedula                  String                   @unique @db.VarChar(15)
+  nombre_completo         String                   @db.VarChar(150)
+  telefono                String?                  @db.VarChar(20)
+  correo                  String                   @unique @db.VarChar(150)
+  password_hash           String                   @db.VarChar(255)
+  rol                     String                   @db.VarChar(30)
+  fecha_creacion          DateTime?                @default(now()) @db.Timestamp(6)
+  chofer                  chofer?
+  cliente                 cliente?
+  empleado_administrativo empleado_administrativo?
+}
+
+model vehiculo {
+  placa              String               @id @db.VarChar(20)
+  id_chofer          Int
+  marca              String               @db.VarChar(50)
+  modelo             String               @db.VarChar(50)
+  color              String               @db.VarChar(30)
+  anio               Int
+  revision_vehicular revision_vehicular[]
+  traslado           traslado[]
+  chofer             chofer               @relation(fields: [id_chofer], references: [id_usuario], onDelete: Cascade, onUpdate: NoAction)
+}

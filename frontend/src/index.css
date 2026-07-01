@@ -1,0 +1,15 @@
+@import "tailwindcss";
+
+@layer components {
+  .input-decarrerita {
+    @apply appearance-none block w-full px-4 py-3 border border-slate-300 rounded-xl shadow-sm placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-colors text-slate-900 bg-slate-50 focus:bg-white mt-2;
+  }
+  
+  .label-decarrerita {
+    @apply block text-sm font-semibold text-slate-700;
+  }
+  
+  .btn-primario {
+    @apply w-full flex justify-center py-4 px-4 border border-transparent rounded-xl shadow-md text-base font-bold text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-all duration-300 hover:-translate-y-1;
+  }
+}

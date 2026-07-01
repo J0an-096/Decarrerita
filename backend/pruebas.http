@@ -1,0 +1,118 @@
+### 1.Probar Recarga de Cliente (Ya funcional)
+POST http://localhost:3000/api/recargas
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZFVzdWFyaW8iOjgsInJvbCI6IkNsaWVudGUiLCJpYXQiOjE3ODI2MzYwNjksImV4cCI6MTc4MjY2NDg2OX0.6GAVhma1A6juF2sqZIg4l8EqVWs2D4d_EhImQeWWfig
+
+{
+  "idCliente": 4,
+  "idBanco": 1,
+  "numeroReferencia": "REF-00001234",
+  "monto": 50.00
+}
+
+### 2. Probar Pago a Chofer (Asegúrate de que los IDs existan)
+POST http://localhost:3000/api/pagos-choferes
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZFVzdWFyaW8iOjgsInJvbCI6IkNsaWVudGUiLCJpYXQiOjE3ODI2MzYwNjksImV4cCI6MTc4MjY2NDg2OX0.6GAVhma1A6juF2sqZIg4l8EqVWs2D4d_EhImQeWWfig
+
+{
+  "idChofer": 3,
+  "idAdmin": 2,
+  "numeroReferencia": "PAGO-0001",
+  "monto": 100.00
+}
+
+### 3. Probar Solicitud de Traslado
+POST http://localhost:3000/api/traslados
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZFVzdWFyaW8iOjgsInJvbCI6IkNsaWVudGUiLCJpYXQiOjE3ODI2MzYwNjksImV4cCI6MTc4MjY2NDg2OX0.6GAVhma1A6juF2sqZIg4l8EqVWs2D4d_EhImQeWWfig
+
+{
+  "idCliente": 4,
+  "idChofer": 3,
+  "placaVehiculo": "ABC-12D",
+  "origen": "Orinokia Mall",
+  "destino": "Alta Vista",
+  "distanciaKm": 10.5
+}
+
+### 4. Probar Autenticación
+
+### 4.1 Registrar un Nuevo Cliente Encriptado
+POST http://localhost:3000/api/auth/registro
+Content-Type: application/json
+
+{
+  "cedula": "V-30111222",
+  "nombreCompleto": "Carlos Mendoza",
+  "telefono": "0412-9998877",
+  "correo": "carlos@test.com",
+  "password": "secreto123",
+  "rol": "Cliente" 
+}
+
+### 4.2 Iniciar Sesión para obtener el JWT (El Pasaporte)
+POST http://localhost:3000/api/auth/login
+Content-Type: application/json
+
+{
+  "correo": "admin@decarrerita.com",
+  "password": "hash_admin_123"
+}
+
+### 5. Probar Registro de Evaluación Psicológica (Requiere Token de Admin)
+POST http://localhost:3000/api/admin/evaluacion-psicologica
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZFVzdWFyaW8iOjEwLCJyb2wiOiJFbXBsZWFkb19BZG1pbmlzdHJhdGl2byIsImlhdCI6MTc4MjYzODA0MiwiZXhwIjoxNzgyNjY2ODQyfQ.d_Z31YdAGtuguSJMRufVz5JA_rzOde5rQJZCEnvUmd8
+
+{
+  "idChofer": 3,
+  "nota": 18,
+  "fechaObtencion": "2026-06-28",
+  "estatus": "Aprobado"
+}
+
+### 1. Registrar un Empleado Administrativo (Para generar su clave encriptada)
+POST http://localhost:3000/api/auth/registro
+Content-Type: application/json
+
+{
+  "cedula": "V-12345678",
+  "nombreCompleto": "Ana Lopez (Admin)",
+  "telefono": "0414-9998877",
+  "correo": "ana.admin@decarrerita.com",
+  "password": "admin123",
+  "rol": "Empleado_Administrativo"
+}
+
+### 2. Login del Empleado Administrativo
+POST http://localhost:3000/api/auth/login
+Content-Type: application/json
+
+{
+  "correo": "ana.admin@decarrerita.com",
+  "password": "admin123"
+}
+
+### Probar Registro de Revisión Vehicular (Requiere Token de Admin)
+POST http://localhost:3000/api/admin/revision-vehicular
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZFVzdWFyaW8iOjEwLCJyb2wiOiJFbXBsZWFkb19BZG1pbmlzdHJhdGl2byIsImlhdCI6MTc4MjY2ODMxOSwiZXhwIjoxNzgyNjk3MTE5fQ.DKdtP7UTJHLzx_MmNi25DJoRaT46mLTsIkyGxtcrsJQ
+
+{
+  "placaVehiculo": "ABC-12D",
+  "calificacion": 20,
+  "fechaObtencion": "2026-06-28",
+  "estatus": "Aprobado"
+}
+
+### 6. Generar Reporte de Ganancias de la Empresa (Requiere Token de Admin)
+GET http://localhost:3000/api/admin/reportes/ganancias
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZFVzdWFyaW8iOjEwLCJyb2wiOiJFbXBsZWFkb19BZG1pbmlzdHJhdGl2byIsImlhdCI6MTc4MjY2ODMxOSwiZXhwIjoxNzgyNjk3MTE5fQ.DKdtP7UTJHLzx_MmNi25DJoRaT46mLTsIkyGxtcrsJQ
+
+SELECT 
+    COUNT(id_traslado) AS cantidad_viajes_completados, 
+    SUM(ganancia_empresa) AS total_ganancia_empresa
+FROM traslado
+WHERE estatus = 'Finalizado' 
+  AND fecha_hora >= '2026-06-01' AND fecha_hora <= '2026-06-30';
