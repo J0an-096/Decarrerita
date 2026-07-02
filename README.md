@@ -48,45 +48,46 @@ Sigan estos pasos estrictamente en orden para levantar el proyecto localmente.
 
 ### Paso 1: Clonar el Repositorio
 Abre tu terminal y ejecuta:
-
+```bash
 git clone <URL_DEL_REPOSITORIO>  
 cd Decarrerita
-
+```
 ### Paso 2: Configurar y Levantar el Backend
 ##### Abre una terminal y entra a la carpeta del servidor:
-
+```bash
 cd backend
+```
 
 ##### Instala las dependencias:
-
+```bash
 npm install
-
+```
 ##### Crea un archivo llamado .env en la raíz de la carpeta backend y llenalo con lo siguietne para conectarte a tu motor local:
 
 DATABASE_URL="postgresql://<TU_USUARIO>:<TU_CONTRASEÑA>@localhost:5432/decarrerita_db?schema=public"
 JWT_SECRET="ingresa_tu_clave_secreta_aqui"
 
 ##### Sincroniza el modelo con tu base de datos mediante Prisma:
-
+```bash
 npx prisma migrate dev
-
+```
 ##### Enciende el servidor backend:
-
+```bash
 npm run dev
-
+```
 ###### (Mantén esta terminal abierta. Si la cierras, la base de datos dejará de responder).
 
 ### Paso 3: Configurar y Levantar el Frontend
 ##### Abre una NUEVA terminal (sin cerrar la del backend) y entra a la interfaz:
-
+```bash
 cd frontend
-
+```
 ##### Instala las dependencias de React:
-
+```bash
 npm install
-
+```
 ##### Enciende el entorno visual:
-
+```bash
 npm run dev
-
+```
 ##### Haz Ctrl + Clic en el enlace que aparece en la terminal (usualmente `http://localhost:5173`) para abrir la aplicación.
